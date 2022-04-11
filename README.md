@@ -34,7 +34,7 @@ You cannot *open* the files in Blender, you have to import them.
 Select the collection `Fragments` and then just click on `File-->Import-->Stanford (.ply)`. You can add all of them at once.
 
 <div style="text-align:center">
-  <img src="imgs/import_ply.png" alt="drawing" max-width="650"/>
+  <img src="imgs/import_ply.png" alt="drawing" width="600"/>
 </div>
 
 An example of import of `.ply` files
@@ -44,7 +44,7 @@ When importing these in Blender, colors will not be shown because the colors are
 To solve this, you have to assign to each piece the material `VertexColors` which will do exactly this (it adds an input node for `Vertex Color`).
 
 <div style="text-align:center">
-  <img src="imgs/material_color_vertex.png" alt="drawing" max-width="600"/>
+  <img src="imgs/material_color_vertex.png" alt="drawing" width="500"/>
 </div>
 
 If you look into the node editor, you will see the input node for the vertex color (when selecting the correct material)
@@ -52,7 +52,7 @@ If you look into the node editor, you will see the input node for the vertex col
 To assign the material, use the ball icon in the right, and instead of creating a new one, choose `VertexColors` from the list.
 
 <div style="text-align:center">
-  <img src="imgs/select_material.png" alt="drawing" max-width="300"/>
+  <img src="imgs/select_material.png" alt="drawing" width="350"/>
 </div>
 
 If you select the correct material and go to the viewport mode and enable the material rendering, you should see the actual textures.
@@ -63,7 +63,7 @@ If you need a reference image (for example, the image of the physical fragments 
 In the outline (top right) go to the Background collection, select the plane and go to the material tab (the ball icon).
 
 <div style="text-align:center">
-  <img src="imgs/open_image.png" alt="drawing" max-width="250"/>
+  <img src="imgs/open_image.png" alt="drawing" width="250"/>
 </div>
 
 There you should a `Base Color` (sometimes abbreviated as `Base..` if you have a small screen) with `Image Texture`. Open the field and click on `Open Image` and select the image you want.
