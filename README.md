@@ -32,25 +32,40 @@ You can start by opening in Blender the `scene_template.blend` file. It should p
 ##### Importing `.ply` in Blender
 You cannot *open* the files in Blender, you have to import them.
 Select the collection `Fragments` and then just click on `File-->Import-->Stanford (.ply)`. You can add all of them at once.
-![importing ply](imgs/import_ply.png)
+
+<div style="text-align:center">
+  <img src="imgs/import_ply.png" alt="drawing" max-width="650"/>
+</div>
+
 An example of import of `.ply` files
 
 ##### Display colors
 When importing these in Blender, colors will not be shown because the colors are in the vertices and not in the faces.
 To solve this, you have to assign to each piece the material `VertexColors` which will do exactly this (it adds an input node for `Vertex Color`).
 
-![material](imgs/material_color_vertex.png)
+<div style="text-align:center">
+  <img src="imgs/material_color_vertex.png" alt="drawing" max-width="600"/>
+</div>
+
 If you look into the node editor, you will see the input node for the vertex color (when selecting the correct material)
 
 To assign the material, use the ball icon in the right, and instead of creating a new one, choose `VertexColors` from the list.
-![material](imgs/select_material.png)
+
+<div style="text-align:center">
+  <img src="imgs/select_material.png" alt="drawing" max-width="300"/>
+</div>
+
 If you select the correct material and go to the viewport mode and enable the material rendering, you should see the actual textures.
 
 ##### Adding a reference image in the background
 
 If you need a reference image (for example, the image of the physical fragments assembled), you can add it to the large plane in the scene.
 In the outline (top right) go to the Background collection, select the plane and go to the material tab (the ball icon).
-![open texture image](imgs/open_image.png)
+
+<div style="text-align:center">
+  <img src="imgs/open_image.png" alt="drawing" max-width="250"/>
+</div>
+
 There you should a `Base Color` (sometimes abbreviated as `Base..` if you have a small screen) with `Image Texture`. Open the field and click on `Open Image` and select the image you want.
 It should appear (if you enable rendering) in the large plane (you can scale the plane by selecting it and pressing `S` if you need to scale the image). You can always toggle the visibility of the plane/background image from the outline (top right, use the little eye icon).
 
