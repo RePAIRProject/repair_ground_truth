@@ -15,6 +15,12 @@ It has a lot of built-in features and can be used for many purposes.
 However, there may be a steep learning curve in the first uses.
 Luckily, to create the ground truth you *do not need to be an expert* in Blender, but just some basic functionalities.
 
+## Enabling Color Rendering
+| Default | Colors |
+|:-------:|:------:|
+|![def](imgs/g15_open_1280.png)|![def](imgs/g15_preview_1280.png)|
+
+
 The workflow includes a pre-processing step to *prepare the files* for an easier manipulation.
 
 ### Pre-processing
