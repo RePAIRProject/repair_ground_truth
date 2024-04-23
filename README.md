@@ -3,8 +3,9 @@ Guide for creating the ground truth for the RePAIR Project
 
 We agreed on creating a digital ground truth using [Blender](#blender) to align the pieces manually
 
-- If you need to prepare the data, go to [Section 1](https://github.com/RePAIRProject/repair_ground_truth/tree/main?tab=readme-ov-file#blender)
-- If you want to assemble puzzles, go to [Section 2](https://github.com/RePAIRProject/repair_ground_truth/tree/main?tab=readme-ov-file#blender)
+- If you need to prepare the data, go to [Section 1](https://github.com/RePAIRProject/repair_ground_truth?tab=readme-ov-file#1-data-preparation)
+- If you want to assemble puzzles, go to [Section 2](https://github.com/RePAIRProject/repair_ground_truth/tree/main?tab=readme-ov-file#2-aligning-the-pieces-with-blender)
+- If you want to save the solved puzzle, go to [Section 3](https://github.com/RePAIRProject/repair_ground_truth/tree/main?tab=readme-ov-file#3-finishing)
 
 ## 1. Data preparation
 To *prepare* the fragments there is a python script [`prepare_puzzle_blender.py`](https://github.com/RePAIRProject/repair_ground_truth/blob/main/prepare_puzzle_blender.py) which will create a `.blend` file with the pieces aligned on a virtual grid in the origin.
