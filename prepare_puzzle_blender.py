@@ -42,7 +42,7 @@ os.makedirs(target_gt_folder, exist_ok=True)
 filepath = os.path.join(target_gt_folder, 'setup.blend')
 
 grid_size = 250
-for group in range(34, 36):
+for group in range(91):
     
     group_path = os.path.join(root_path, f'group_{group}')
     processed_folder = os.path.join(group_path, 'processed')
