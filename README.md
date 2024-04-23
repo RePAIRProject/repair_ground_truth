@@ -1,106 +1,90 @@
 # Ground Truth for the RePAIR Project
 Guide for creating the ground truth for the RePAIR Project
 
-We agreed on creating a digital ground truth with digital 3D tools (controlled by an expert in the field of archaeology).
-We selected 2 possibilities:
-- Using [Blender](#blender) to align the pieces manually
-- Using the [Fragment Reassembler](#fragment-reassembler) tool to select contact points between each pair of pieces and snap them together
+We agreed on creating a digital ground truth using [Blender](#blender) to align the pieces manually
 
-For more information, check the sections below (more material and screenshots will come).
+- If you need to prepare the data, go to [Section 1](https://github.com/RePAIRProject/repair_ground_truth/tree/main?tab=readme-ov-file#blender)
+- If you want to assemble puzzles, go to [Section 2](https://github.com/RePAIRProject/repair_ground_truth/tree/main?tab=readme-ov-file#blender)
 
-## Blender
+## 1. Data preparation
+To *prepare* the fragments there is a python script [`prepare_puzzle_blender.py`](https://github.com/RePAIRProject/repair_ground_truth/blob/main/prepare_puzzle_blender.py) which will create a `.blend` file with the pieces aligned on a virtual grid in the origin.
+This can be run by one person to prepare all the groups.
+
+## 2. Aligning the pieces with Blender
 [Blender](https://www.blender.org/) is a well-known open source tool for working with three-dimensional data.
 It can be downloaded from [the website](https://www.blender.org/download/) and is supported on MacOS, Windows and Linux.
 It has a lot of built-in features and can be used for many purposes.
 However, there may be a steep learning curve in the first uses.
 Luckily, to create the ground truth you *do not need to be an expert* in Blender, but just some basic functionalities.
 
-## Enabling Color Rendering
+At any point, if you find anything unclear, please refer to the official [documentation](https://docs.blender.org/manual/en/latest/contribute/index.html) or to the many resources available online.
+
+| ⚠️  **WARNING:**  it i strognly suggested that you get a mouse to do this.  |
+|-----------------------------------------|
+
+### Enabling Color Rendering
+If you download a `.blend` file prepared with the python script, it should opens up with 4 views (from different sides) of the pieces. 
+By default, you have the `solid` viewport shading mode (meaning you only see gray pieces). You can enable the `material preview` viewport shading mode to see the texture on the pieces, as shown in the image.
+
 | Default | Colors |
 |:-------:|:------:|
 |![def](imgs/g15_open_1280.png)|![def](imgs/g15_preview_1280.png)|
 
+This is a bit more computationally expensive, so if you see that your computer does not manage, you can solve the puzzle without texture. 
 
-The workflow includes a pre-processing step to *prepare the files* for an easier manipulation.
+### Moving around the scenes
+To move around the scene, you can hold down the wheel button (on your mouse) or use the gizmo on the top right of your interface (see figure).
 
-### Pre-processing
-The pre-processing consists in aligning the center of mass of the object to the (0,0,0) coordinates, and rotate it so that the top flat surface is facing up.
-It should be done for every group of pieces that has to be aligned. However, this can be done previously and results can be saved in a blender `.blend` file, so if this has been prepared, one can follow from the [aligning fragments](#aligning-fragments) section.
+| Use the gizmo to see around the scene |
+|:-------------------------------------:|
+|![gizmo](imgs/moving_around.png)|
 
-This can be done via the provided [`prepare_for_gt_blender.py`](https://github.com/RePAIRProject/repair_ground_truth/blob/main/prepare_for_gt_blender.py) script.
+This should help you to check around the scene. By clicking on the axis on the gizmo, you can establish a perpendicular view (particularly useful to align the pieces in all axis).
 
-The script can be customized passing some parameters. For more details check the code or the [`details_script`](https://github.com/RePAIRProject/repair_ground_truth/blob/main/details_script.md) guide.
-The outputs of the pre-processing are the prepared `.ply` files.
+### Moving the pieces around
+To move the pieces, you first have to select them (one at a time or multiple at the same time). You select them by simply left-clicking on them.
+Once a piece is selected, you can start moving them by using the keyboard shortcut `G`. (Note: remember to have your mouse pointer in the window where you want to move. If you are in a different window, `G` will do other stuff).
+Once you pressed `G`, just moving the mouse allows you to move the pieces freely in the scene (no need to press any button on the mouse). You can see that the movement is visible from all axis. Although this is the quickest option, you may find it hard to align perfectly in 3D.
+You can move the pieces also by clicking the arrows instead of using the mouse, if this helps.
 
-#### Using the template
-You can start by opening in Blender the `scene_template.blend` file. It should provide already a collection with a large plane (with a texture image node) and a collection named `Fragments` which is empty.
+You can **constrain** the movement on one-axis only by pressing the key related to the axis, so `X`, `Y` or `Z`. For example, pressing `G` and then `X` allows you to move the piece horizontally (see image). 
 
-#### Importing `.ply` in Blender
-You cannot *open* the files in Blender, you have to import them.
-Select the collection `Fragments` and then just click on `File-->Import-->Stanford (.ply)`. You can add all of them at once.
+| Moving along the `X` axis|
+|:-------------------------------------:|
+|![move on X axis](imgs/move_axis.png)|
 
-<div style="text-align:center">
-  <img src="imgs/import_ply.png" alt="drawing" width="600"/>
-</div>
+When you are satisfied with the position, you can click `ENTER` or left-click the mouse to place thefragment there. If at any point you want to discard the movement, just press `ESC`. 
+You can repeat the movement as many times as you need.
 
-An example of import of `.ply` files
+### Rotating the pieces
+Rotating the pieces (on itself) is very similar, but instead of using `G`, you press `R`. Once you press `R`, any movement of your mouse (or click of one arrow) will rotate the piece. Here again, pressing `X`, `Y` or `Z` will rotate the piece only around that axis (as shown in the figure).
 
-#### Display colors
-When importing these in Blender, colors will not be shown because the colors are in the vertices and not in the faces.
-To solve this, you have to assign to each piece the material `VertexColors` which will do exactly this (it adds an input node for `Vertex Color`).
+| Rotating around the `Z` axis |
+|:-------------------------------------:|
+|![rotating](imgs/rotating.png)|
 
-<div style="text-align:center">
-  <img src="imgs/material_color_vertex.png" alt="drawing" width="500"/>
-</div>
+### Checking the solution
+As a reference solution of each *group* we have `preview` images available. They are available in the github repo (currently private, if you do not have access, please reach out). Using these images as a reference, the solution should be easier to find.
 
-If you look into the node editor, you will see the input node for the vertex color (when selecting the correct material)
+##### Extra: Using the solution as a background
+If you are a pro and want to have the reference image within Blender, you can add a Plane Mesh `SHIFT + A` and select `MESH` and then `PLANE`, go its material, add a new material, instead of the white color select `IMAGE TEXTURE` and open as texture the preview image. The result is shown in the figure below.
 
-To assign the material, use the ball icon in the right, and instead of creating a new one, choose `VertexColors` from the list.
+| Reference image as a plane |
+|:-------------------------------------:|
+|![rotating](imgs/plane_texture.png)|
 
-<div style="text-align:center">
-  <img src="imgs/select_material.png" alt="drawing" width="350"/>
-</div>
+You can also tweak the aspect ratio and scale it to get the correct size. This may be helpful to know where to place the pieces. You can also use it as a canvas to place the piece on top of it.
 
-If you select the correct material and go to the viewport mode and enable the material rendering, you should see the actual textures.
+## 3. Finishing
+Once
+Once you are happy with the solution, you can save the file with a new name. 
+**WARNING**: before saving, you need to check that you are saving all resources. You can check it on the top bar (top left) in `FILE` --> `EXTERNAL DATA` --> `Automatically Pack Resources` (it should be ticked!). See image below.
 
-#### Adding a reference image in the background
+| `Automatically Pack Resources` set to True |
+|:-------------------------------------:|
+|![resoruces](imgs/resources.jpg)|
 
-If you need a reference image (for example, the image of the physical fragments assembled), you can add it to the large plane in the scene.
-In the outline (top right) go to the Background collection, select the plane and go to the material tab (the ball icon).
+Then select `FILE` --> `SAVE AS` (or `SHIFT + CTRL + S` and save it as `group_XX_DONE.blend` (it was previously `group_XX_TODO.blend`). 
+This file should be uploaded and will be used to export the ground truth positions and rotations.
 
-<div style="text-align:center">
-  <img src="imgs/open_image.png" alt="drawing" width="250"/>
-</div>
-
-There you should a `Base Color` (sometimes abbreviated as `Base..` if you have a small screen) with `Image Texture`. Open the field and click on `Open Image` and select the image you want.
-It should appear (if you enable rendering) in the large plane (you can scale the plane by selecting it and pressing `S` if you need to scale the image). You can always toggle the visibility of the plane/background image from the outline (top right, use the little eye icon).
-
-### Aligning Fragments
-After pre-processing (or after getting the prepared `.blend` file) the alignment can be done in two sequential steps:
-- rough alignment on a virtual 2D plane based on shape and texture
-- fine tuning of the position and rotation of each fragment
-These steps are supposed to emulate the steps of an archaeologist working with the actual pieces.
-
-#### Step 1: Rough alignment on a virtual 2D plane
-Setting the camera position in the z-axis and orthogonally to the xy-plane (by pressing `7` on the keyboard or by using the gizmo in Blender pressing on `Z`) and setting the projection mode to orthogonal (pressing `5`), the fragments will be seen from a 2D perspective and can be moved around (first selecting a piece, then enabling the movement by pressing `G`) to a roughly correct position.
-
-The pieces needs to be rotated (only around the z-axis at this point) and this can be done, once they are selected, by pressing `R` and then `Z`.
-
-#### Step 2: Fine tuning and final solution
-Once a rough alignment has been obtained, the fine tuning step starts. Using the hand below the gizmo on the top-right of the 3D Viewport, we can move around the scene and zoom in to see the alignment better, and we can now move around the camera (holding the wheel button down and moving the mouse) to check the alignment from different perspectives.
-
-If needed, there is the possibility of checking the fragment from above (pressing `7`), from the side (pressing `1` for the y-axis or `3` for the x-axis) or from the bottom (pressing `9`).
-
-Moving the fragments can be done after selecting a fragment by pressing `G` (caution: this will move freely in the 3D world, so be sure to check in which direction you are moving). To constrain the movement in only one axis, press `X`, `Y` or `Z` after `G` (for example, to move a piece only around the z-axis, so to move it up or down, select it, press `G` and then `Z` then move the mouse).
-
-## Fragment Reassembler
-The [fragment reassembler](http://vcg.isti.cnr.it/~pietroni/reassembly/index.html) is a tool from the [Visual Computing Laboratory](http://vcg.isti.cnr.it/), [ISTI](https://www.isti.cnr.it/en/) and [CNR](https://www.cnr.it/) partially funded by [EC IP “3DCOFORM”](https://www.3d-coform.eu/) which is available online alongside with [the scientific paper](http://vcg.isti.cnr.it/Publications/2013/PPCS13/reassembly_DH13_final.pdf) which explains it in terms of usage and functionalities.
-
-The program can be downloaded [from the website](http://vcg.isti.cnr.it/~pietroni/reassembly/download.html) and works on Windows (or under Wine on Unix systems).
-
-The program works by importing two fragments in the two working areas and selecting corresponding points between them. The color information is visible and fragments can be rotated to check the matching surfaces.
-Once the corresponding points on the two fragments are found, they can be selected by clicking on them (in the working areas) and added as a constraint by pressing the button `add constraint`. Once some constraints have been added (minimum 2, usually 5-6 ensure good results) the button `solve` can be clicked, and the system aligns the fragments.
-
-Constraints can always be added afterwards (and deleted) so this operation can be repeated many times until a satisfying solution is found.
-
-An overview and tutorial of the system is available in [this video](https://www.youtube.com/watch?v=wn9_b9YZhU0).
+Thanks!
