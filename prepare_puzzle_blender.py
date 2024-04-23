@@ -2,25 +2,60 @@ import bpy
 import os 
 from pieces_utils import *
 
+def mega_purge():
+    orphan_ob = [o for o in bpy.data.objects if not o.users]
+    while orphan_ob:
+        bpy.data.objects.remove(orphan_ob.pop())
+        
+    orphan_mesh = [m for m in bpy.data.meshes if not m.users]
+    while orphan_mesh:
+        bpy.data.meshes.remove(orphan_mesh.pop())
+        
+    orphan_mat = [m for m in bpy.data.materials if not m.users]
+    while orphan_mat:
+        bpy.data.materials.remove(orphan_mat.pop())
+
+    def purge_node_groups():   
+        orphan_node_group = [g for g in bpy.data.node_groups if not g.users]
+        while orphan_node_group:
+            bpy.data.node_groups.remove(orphan_node_group.pop())
+        if [g for g in bpy.data.node_groups if not g.users]: purge_node_groups()
+    purge_node_groups()
+        
+    orphan_texture = [t for t in bpy.data.textures if not t.users]
+    while orphan_texture:
+        bpy.data.textures.remove(orphan_texture.pop())
+
+    orphan_images = [i for i in bpy.data.images if not i.users]
+    while orphan_images:
+        bpy.data.images.remove(orphan_images.pop())
+
+    orphan_cameras = [c for c in bpy.data.cameras if not c.users]
+    while orphan_cameras :
+        bpy.data.cameras.remove(orphan_cameras.pop())
+        
+
 root_path = '/media/lucap/big_data/datasets/repair/'
 target_gt_folder = os.path.join(root_path, 'ground_truth')
 os.makedirs(target_gt_folder, exist_ok=True)
 # for blender
 filepath = os.path.join(target_gt_folder, 'setup.blend')
-bpy.ops.wm.open_mainfile(filepath=filepath)
-bpy.data.use_autopack = True
-bpy.context.scene.unit_settings.scale_length = 0.001
-bpy.context.scene.unit_settings.length_unit = 'MILLIMETERS'
+
 grid_size = 250
-for group in range(90):
+for group in range(34, 36):
     
     group_path = os.path.join(root_path, f'group_{group}')
     processed_folder = os.path.join(group_path, 'processed')
     #prepared_folder = os.path.join(group_path, 'facing_up')
 
+    bpy.ops.wm.open_mainfile(filepath=filepath)
+    bpy.data.use_autopack = True
+    bpy.context.scene.unit_settings.scale_length = 0.001
+    bpy.context.scene.unit_settings.length_unit = 'MILLIMETERS'
     # Remove all default objects
-    for obj in bpy.data.objects:
-        bpy.data.objects.remove(obj)
+    #mega_purge() #call the function
+    # for obj in bpy.data.objects:
+    #     bpy.data.objects.remove(obj)
 
     if os.path.exists(processed_folder):
         print("Working on group", group)
