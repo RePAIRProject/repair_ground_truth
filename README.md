@@ -20,7 +20,7 @@ Luckily, to create the ground truth you *do not need to be an expert* in Blender
 
 At any point, if you find anything unclear, please refer to the official [documentation](https://docs.blender.org/manual/en/latest/contribute/index.html) or to the many resources available online.
 
-| ⚠️  **WARNING:**  it i strognly suggested that you get a mouse to do this.  |
+| ⚠️  **WARNING:**  it is strongly suggested to use a mouse for this task. |
 |-----------------------------------------|
 
 ### Enabling Color Rendering
