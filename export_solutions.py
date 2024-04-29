@@ -12,6 +12,7 @@ print("Found:", list_of_solved_puzzles)
 for solved_puzzle in list_of_solved_puzzles:
     
     gt_dict = {}
+    gt_2D_dict = {}
     bpy.ops.wm.open_mainfile(filepath=os.path.join(solved_puzzles, solved_puzzle))
     bpy.data.use_autopack = True
     bpy.context.scene.unit_settings.scale_length = 0.001
@@ -29,9 +30,15 @@ for solved_puzzle in list_of_solved_puzzles:
                 'rotation_quaternion': [rot_quat[0], rot_quat[1], rot_quat[2], rot_quat[3]]
             }
             gt_dict[f"{obj.name}"] = gt_piece
-    
+
     target_gt_path = os.path.join(solved_puzzles_gt, f"{solved_puzzle.split('.')[0][:-5]}.json")
     with open(target_gt_path, 'w') as jtp:
         json.dump(gt_dict, jtp, indent=3)
+
+    bpy.ops.group.create(name="myGroup") # will not appear in outliner until objects are linked.
+objects_to_add = "Cube1","Cube2","Cube3"
+for name in objects_to_add:
+    bpy.ops.object.select_name(name=name)
+    bpy.ops.object.group_link(group="myGroup")
     print("finished with", solved_puzzle)
 
