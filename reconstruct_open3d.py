@@ -28,7 +28,7 @@ def main(args):
         meshes.append(mesh)
     cframe = o3d.geometry.TriangleMesh.create_coordinate_frame(size=100)
     o3d.visualization.draw_geometries(meshes+[cframe])
-    breakpoint()
+    # breakpoint()
 
 if __name__ == '__main__':
 
