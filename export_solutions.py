@@ -35,10 +35,10 @@ for solved_puzzle in list_of_solved_puzzles:
     with open(target_gt_path, 'w') as jtp:
         json.dump(gt_dict, jtp, indent=3)
 
-    bpy.ops.group.create(name="myGroup") # will not appear in outliner until objects are linked.
-objects_to_add = "Cube1","Cube2","Cube3"
-for name in objects_to_add:
-    bpy.ops.object.select_name(name=name)
-    bpy.ops.object.group_link(group="myGroup")
-    print("finished with", solved_puzzle)
+    # bpy.ops.group.create(name="myGroup") # will not appear in outliner until objects are linked.
+    # objects_to_add = "Cube1","Cube2","Cube3"
+    # for name in objects_to_add:
+    #     bpy.ops.object.select_name(name=name)
+    #     bpy.ops.object.group_link(group="myGroup")
+    #     print("finished with", solved_puzzle)
 
