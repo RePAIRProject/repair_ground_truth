@@ -1,15 +1,24 @@
 # Ground Truth for the RePAIR Project
 Guide for creating the ground truth for the RePAIR Project
 
-We agreed on creating a digital ground truth using [Blender](#blender) to align the pieces manually
+We agreed on creating a digital ground truth using [Blender](#blender) to align the pieces manually. 
+This ensure that the following pipeline is reproducible for longer time (Blender is independently maintained and has a large community) and easier to use for anyone (lots of resources to learn to use Blender), plus it reduces time spent on reinventing the wheel (few code to be written on our side).
 
+## Index
 - If you need to prepare the data, go to [Section 1](https://github.com/RePAIRProject/repair_ground_truth?tab=readme-ov-file#1-data-preparation)
 - If you want to assemble puzzles, go to [Section 2](https://github.com/RePAIRProject/repair_ground_truth/tree/main?tab=readme-ov-file#2-aligning-the-pieces-with-blender)
 - If you want to save the solved puzzle, go to [Section 3](https://github.com/RePAIRProject/repair_ground_truth/tree/main?tab=readme-ov-file#3-finishing)
+- If you want to generate ground truth json file, go to [Section 4](https://github.com/RePAIRProject/repair_ground_truth/tree/main?tab=readme-ov-file#4-ground-truth-generation)
+- If you have ground truth and want to have a reference script for reconstruction, go to [Section 5](https://github.com/RePAIRProject/repair_ground_truth/tree/main?tab=readme-ov-file#5-reconstruction-reference)
 
 ## 1. Data preparation
 To *prepare* the fragments there is a python script [`prepare_puzzle_blender.py`](https://github.com/RePAIRProject/repair_ground_truth/blob/main/prepare_puzzle_blender.py) which will create a `.blend` file with the pieces aligned on a virtual grid in the origin.
 This can be run by one person to prepare all the groups.
+
+The command to run is:
+```bash 
+blender --background --python prepare_puzzle_blender.py
+```
 
 ## 2. Aligning the pieces with Blender
 [Blender](https://www.blender.org/) is a well-known open source tool for working with three-dimensional data.
@@ -89,3 +98,23 @@ Then select `FILE` --> `SAVE AS` (or `SHIFT + CTRL + S` and save it as `group_XX
 This file should be uploaded and will be used to export the ground truth positions and rotations.
 
 Thanks!
+
+## 4. Ground Truth Generation
+To generate the ground truth, we use a second script (`export_solutions.py`), which can be launched with:
+```bash
+blender --background --python export_solutions.py
+```
+This will create a `JSON` file for each solved group (in the `DONE` folder).
+
+## 5. Reconstruction Reference
+To understand how to use the data, we provide a script to read and process the meshes. 
+By giving the root folder (where the `.obj` meshes are, including material and texture) and the `JSON` file, it places the pieces in the correct position and orientation.
+
+Command is:
+```bash
+python reconstruct_open3d.py -r /root_folder -j /~/group_XX.json
+```
+And it should output something like this:
+| Reconstruction with open3d |
+|:-------------------------------------:|
+|![rec](imgs/rec_o3d.png)|
