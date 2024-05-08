@@ -8,8 +8,9 @@ This ensure that the following pipeline is reproducible for longer time (Blender
 - If you need to prepare the data, go to [Section 1](https://github.com/RePAIRProject/repair_ground_truth?tab=readme-ov-file#1-data-preparation)
 - If you want to assemble puzzles, go to [Section 2](https://github.com/RePAIRProject/repair_ground_truth/tree/main?tab=readme-ov-file#2-aligning-the-pieces-with-blender)
 - If you want to save the solved puzzle, go to [Section 3](https://github.com/RePAIRProject/repair_ground_truth/tree/main?tab=readme-ov-file#3-finishing)
-- If you want to generate ground truth json file, go to [Section 4](https://github.com/RePAIRProject/repair_ground_truth/tree/main?tab=readme-ov-file#4-ground-truth-generation)
+- If you want to generate ground truth json file, go to [Section 4](https://github.com/RePAIRProject/repair_ground_truth/tree/main?tab=readme-ov-file#4-ground-truth-json-generation)
 - If you have ground truth and want to have a reference script for reconstruction, go to [Section 5](https://github.com/RePAIRProject/repair_ground_truth/tree/main?tab=readme-ov-file#5-reconstruction-reference)
+- If you have ground truth and want to save the assembled version of the pieces, go to [Section 6](https://github.com/RePAIRProject/repair_ground_truth/tree/main?tab=readme-ov-file#6-save-assembled-pieces)
 
 ## 1. Data preparation
 To *prepare* the fragments there is a python script [`prepare_puzzle_blender.py`](https://github.com/RePAIRProject/repair_ground_truth/blob/main/prepare_puzzle_blender.py) which will create a `.blend` file with the pieces aligned on a virtual grid in the origin.
@@ -99,12 +100,13 @@ This file should be uploaded and will be used to export the ground truth positio
 
 Thanks!
 
-## 4. Ground Truth Generation
+## 4. Ground Truth `JSON` Generation
 To generate the ground truth, we use a second script (`export_solutions.py`), which can be launched with:
 ```bash
-blender --background --python export_solutions.py
+blender --background --python export_json_blender.py
 ```
 This will create a `JSON` file for each solved group (in the `DONE` folder).
+This `JSON` file contains for each piece the rotation and translation needed to assemble the *original* pieces (from acquisition). If you are looking for the *assembled* version (all pieces already in the correct position and orientation, move to [Section 6](https://github.com/RePAIRProject/repair_ground_truth/tree/main?tab=readme-ov-file#6-save-assembled-pieces))
 
 ## 5. Reconstruction Reference
 To understand how to use the data, we provide a script to read and process the meshes. 
@@ -112,9 +114,22 @@ By giving the root folder (where the `.obj` meshes are, including material and t
 
 Command is:
 ```bash
-python reconstruct_open3d.py -r /root_folder -j /~/group_XX.json
+python show_reconstruction_open3d.py -r /root_folder -j /~/group_XX.json
 ```
-And it should output something like this:
+Where `-r` should refer to the folder with the *original* files (the specific group) and `-j` to the relative ground truth `JSON` file just generated in [Section 4](https://github.com/RePAIRProject/repair_ground_truth/tree/main?tab=readme-ov-file#4-ground-truth-json-generation).
+
+It should output something like this:
 | Reconstruction with open3d |
 |:-------------------------------------:|
 |![rec](imgs/rec_o3d.png)|
+
+## 6. Save assembled pieces 
+There is yet another script which takes the *original* pieces, uses the information in the `JSON` gt file and assemble them (it builds upon the above one, just for all groups/puzzles at once) and save each piece as individual `.obj` file (with corresponding material (`.mtl`) and texture (`.png`) files). These can be used as a starting point for any puzzle algorithm (just move them to the origin or somewhere and rotate them randomly, otherwise the solution is already available.)
+
+Command is:
+```bash
+python save_assembled_pieces.py -r ~/root_folder -gt ~/ground_truth_folder
+```
+Where `-r` should refer to the folder with the *original* files (the root folder in this case, no specific group, the loop will enter into the group folders one by one) and `-gt` refers to the ground truth root folder (where there is the `DONE` folder and the `gt_json` folder).
+
+This will create a `PUZZLES` folder and inside it it will save each puzzle in a separate folder. 
