@@ -28,6 +28,11 @@ It has a lot of built-in features and can be used for many purposes.
 However, there may be a steep learning curve in the first uses.
 Luckily, to create the ground truth you *do not need to be an expert* in Blender, but just some basic functionalities.
 
+| The general overview of Blender UI when reassembling |
+|:-------------------------------------:|
+|![Blender UI](imgs/highlight_BUI.jpg)|
+
+
 At any point, if you find anything unclear, please refer to the official [documentation](https://docs.blender.org/manual/en/latest/contribute/index.html) or to the many resources available online.
 
 | ⚠️  **WARNING:**  it is strongly suggested to use a mouse for this task. |
