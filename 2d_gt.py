@@ -14,12 +14,15 @@ ort_proj = 2.714            # blender orthographic projection scale
 
 visualize = False
 save_solution_as_txt = True
+output_folder = 'gt_2d_txt'
+os.makedirs(output_folder, exist_ok=True)
 
-for j, group in enumerate([1, 13, 15]):
-
+for j, group in enumerate([1]): #, 13, 15]):
     # modify path accordingly!
-    json_gt = f'/media/lucap/big_data/datasets/repair/ground_truth/gt_json/group_{group}.json'
-    images_f = f'/media/lucap/big_data/datasets/repair/2DGT/group_{group}'
+    json_gt = '/home/palma/Unive/RePAIR/Datasets/RePAIR_dataset/group_1/json/group_1.json' 
+    # json_gt = f'/media/lucap/big_data/datasets/repair/ground_truth/gt_json/group_{group}.json'
+    images_f = '/home/palma/Unive/RePAIR/Datasets/RePAIR_dataset/group_1/2d' 
+    # images_f = f'/media/lucap/big_data/datasets/repair/2DGT/group_{group}'
 
     with open(json_gt, 'r') as jgt:
         gt = json.load(jgt)
@@ -56,7 +59,7 @@ for j, group in enumerate([1, 13, 15]):
     df['rot'] = solution[:, 2]
 
     if save_solution_as_txt == True:
-        df.to_csv(f'group_{group}.txt')
+        df.to_csv(os.path.join(output_folder, f'group_{group}.txt'))
     else:
         print(solution)
 
