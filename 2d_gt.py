@@ -5,7 +5,7 @@ import numpy as np
 import scipy.ndimage as ndi
 import pandas as pd 
 
-canvas_shape = 8000
+canvas_shape = 11000
 cc = canvas_shape // 2
 img_size = 2000 
 ihs = img_size // 2
@@ -16,13 +16,17 @@ visualize = False
 save_solution_as_txt = True
 output_folder = 'gt_2d_txt'
 os.makedirs(output_folder, exist_ok=True)
+#groups_nums = np.arange(1, 3, 1)
+groups_nums = np.arange(38, 41, 1)
 
-for j, group in enumerate([1]): #, 13, 15]):
+#for j, group in enumerate([4]):
+for j, group in enumerate(groups_nums):
     # modify path accordingly!
-    json_gt = '/home/palma/Unive/RePAIR/Datasets/RePAIR_dataset/group_1/json/group_1.json' 
-    # json_gt = f'/media/lucap/big_data/datasets/repair/ground_truth/gt_json/group_{group}.json'
-    images_f = '/home/palma/Unive/RePAIR/Datasets/RePAIR_dataset/group_1/2d' 
+    json_gt = f'/home/marina/PycharmProjects/repair_ground_truth/RePAIR_dataset/json/group_{group}.json'
+    images_f = f'/home/marina/PycharmProjects/repair_ground_truth/RePAIR_dataset/images/group_{group}'
+
     # images_f = f'/media/lucap/big_data/datasets/repair/2DGT/group_{group}'
+    # json_gt = f'/media/lucap/big_data/datasets/repair/ground_truth/gt_json/group_{group}.json'
 
     with open(json_gt, 'r') as jgt:
         gt = json.load(jgt)
@@ -53,6 +57,12 @@ for j, group in enumerate([1]): #, 13, 15]):
         plt.title(f"Group {group}")
         plt.imshow(canvas)
 
+    final_solution = os.path.join(f'/home/marina/PycharmProjects/repair_ground_truth/RePAIR_dataset/final_img/group_{group}.png')
+    plt.subplot(1, 3, j + 1)
+    plt.title(f"Group {group}")
+    #plt.imshow((canvas * 255).astype(np.uint8))
+    plt.imsave(final_solution, (canvas * 255).astype(np.uint8))
+
     df['rpf'] = names
     df['x'] = solution[:, 0]
     df['y'] = solution[:, 1]
@@ -65,3 +75,4 @@ for j, group in enumerate([1]): #, 13, 15]):
 
 if visualize == True:
     plt.show()
+    plt.imsave()
