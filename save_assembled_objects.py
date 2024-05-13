@@ -9,24 +9,23 @@ def main(args):
     root_folder = args.root 
     gt_folder = args.ground_truth 
     
-    done_folder = os.path.join(gt_folder, "DONE")
-    json_folder = os.path.join(gt_folder, 'gt_json')
-    puzzle_folder = os.path.join(gt_folder, 'PUZZLES')
+    done_folder = os.path.join(gt_folder, "RP_objects_json")
+    puzzle_folder = os.path.join(gt_folder, 'RP_OBJECTS_PUZZLES')
 
-    done_groups = [ff for ff in os.listdir(done_folder) if ff.endswith(".blend")]
-    for done_group in done_groups:
-        group_name = done_group[:-11]
+    done_objects = [ff for ff in os.listdir(done_folder) if ff.endswith(".json")]
+    for done_obj in done_objects:
+        group_name = done_obj.split("_")[1] #[:-11]
         print("working on", group_name)
-        corresponding_json_path = os.path.join(json_folder, f"{group_name}.json")
+        corresponding_json_path = os.path.join(done_folder, done_obj)
         if os.path.exists(corresponding_json_path):
-            
+            #breakpoint()
             print("found json file")
             with open(corresponding_json_path, 'r') as jp:
                 gt = json.load(jp)
 
-            output_puzzle_folder = os.path.join(puzzle_folder, f"Puzzle_{group_name}")
+            output_puzzle_folder = os.path.join(puzzle_folder, f"{done_obj[:-5]}")
             if os.path.exists(output_puzzle_folder):
-                print(f"skipping {done_group} as {output_puzzle_folder} already exist")
+                print(f"skipping {done_obj} as {output_puzzle_folder} already exist")
             else:
                 os.makedirs(output_puzzle_folder, exist_ok=False)
                 processed_folder = os.path.join(root_folder, group_name, 'processed')
@@ -62,7 +61,7 @@ def main(args):
                 translation = -pcd.get_center()
                 #print("np:", np.mean(all_pts, axis=0))
                 #print("o3d:", pcd.get_center())
-                pcd.translate(translation)
+                #pcd.translate(translation)
                 #o3d.visualization.draw_geometries([pcd, cframe])
 
                 for mesh, mesh_name in zip(meshes, meshes_names):
