@@ -8,8 +8,8 @@ def main(args):
 
     root_folder = args.root 
     gt_folder = args.ground_truth 
-    
-    done_folder = os.path.join(gt_folder, "RP_objects_json")            # the .json files   
+
+    done_folder = os.path.join(gt_folder, "RP_objects_gt_json")            # the .json files   
     puzzle_folder = os.path.join(gt_folder, "RP_dataset_NIPS_2024")     # dataset folder for release
     assembled_folder = os.path.join(puzzle_folder, 'assembled_objects')     # assembled objects here
     os.makedirs(assembled_folder, exist_ok=True)
