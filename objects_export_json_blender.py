@@ -143,6 +143,7 @@ for group_num in range(92):
                 elif "isolated" in collection.name:
                     
                     for obj in collection.all_objects:
+                        gt_dict = {}
                         if "RPf" in obj.name:
                             isolated_counter += 1
                             loc = obj.location 
