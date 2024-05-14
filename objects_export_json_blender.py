@@ -41,8 +41,8 @@ for i, stringc in enumerate(unique_random_strings_I, start=1):
     print(f"Unique random string {i}: {stringc}")
 assert(len(unique_random_strings_I) == len(np.unique(unique_random_strings_I))), 'DOUBLED!'
 
-root_path = '/home/palma/Unive/RePAIR/Datasets/RePAIR_dataset/ground_truth' 
-#root_path = '/media/lucap/big_data/datasets/repair/ground_truth'
+#root_path = '/home/palma/Unive/RePAIR/Datasets/RePAIR_dataset/ground_truth' 
+root_path = '/media/lucap/big_data/datasets/repair/ground_truth'
 solved_puzzles = os.path.join(root_path, 'DONE')
 solved_puzzles_gt = os.path.join(root_path, 'RPobj_json')
 os.makedirs(solved_puzzles_gt, exist_ok=True)
