@@ -1,5 +1,5 @@
 import bpy 
-import os, json 
+import os, json, sys 
 import pandas as pd 
 import random
 import string
@@ -105,6 +105,7 @@ for group_num in range(92):
             #         json.dump(gt_dict, jtp, indent=3)
             # else:
             for collection in collections:
+                gt_dict = {}
                 if "O" in collection.name or collection.name == "Collection": 
                     if len(collection.all_objects) > 0:
                         obj_counter += 1
@@ -142,6 +143,7 @@ for group_num in range(92):
                 elif "isolated" in collection.name:
                     
                     for obj in collection.all_objects:
+                        gt_dict = {}
                         if "RPf" in obj.name:
                             isolated_counter += 1
                             loc = obj.location 
