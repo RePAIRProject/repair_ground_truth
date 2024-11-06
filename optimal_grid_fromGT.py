@@ -7,8 +7,10 @@ import scipy.ndimage as ndi
 import pandas as pd
 
 
-groups_nums = [1, 3, 39]  # DONE for RM
+#groups_nums = [1, 3, 39]  # DONE for RM
 #groups_nums = [45, 51, 52, 53, 59, 37, 40, 47, 48, 54, 55] ## todo
+groups_nums = [42,	43,	45,	47,	48,	49,	50,	51,	52,	53,	54,	55,	57,	58]
+
 
 xy_step = 3
 xy_grid_points = 121
@@ -16,10 +18,10 @@ xy_grid_points = 121
 visualize = False
 save_solution_as_txt = True
 
-output_folder_px = 'gt_px251'
-output_folder_grid = 'gt_grid3'
-output_folder_PTS = 'opt_PTS'
-output_folder_Fin_Im = 'final_img251'
+output_folder_px = 'GT_251new/gt_px251'
+output_folder_grid = 'GT_251new/gt_grid3'
+output_folder_PTS = 'GT_251new/opt_PTS'
+output_folder_Fin_Im = 'GT_251new/final_img251'
 
 os.makedirs(output_folder_px, exist_ok=True)
 os.makedirs(output_folder_grid, exist_ok=True)
@@ -35,12 +37,13 @@ optimal_grid3 = np.zeros((len(groups_nums), 3))
 
 for j, group in enumerate(groups_nums):
     # modify path accordingly!
-    #json_gt = f'/home/marina/PycharmProjects/repair_ground_truth/RePAIR_dataset/json/group_{group}.json'
+    json_gt = f'/home/marina/PycharmProjects/repair_ground_truth/RePAIR_dataset/json/group_{group}.json'
     #images_f = f'/home/marina/PycharmProjects/repair_ground_truth/RePAIR_dataset/images/group_{group}'
+    images_f = f'/home/marina/PycharmProjects/repair_ground_truth/RePAIR_dataset/all_images'
 
     # CASA modify path accordingly!
-    json_gt = f'/Users/Marina/PycharmProjects/repair_ground_truth/RePAIR_dataset/json_obj/RPobj_g{group}_o000{group}.json'
-    images_f = f'/Users/Marina/PycharmProjects/repair_ground_truth/RePAIR_dataset/resize_images'
+    #json_gt = f'/Users/Marina/PycharmProjects/repair_ground_truth/RePAIR_dataset/json_obj/RPobj_g{group}_o000{group}.json'
+    #images_f = f'/Users/Marina/PycharmProjects/repair_ground_truth/RePAIR_dataset/resize_images'
 
     # images_f = f'/media/lucap/big_data/datasets/repair/2DGT/group_{group}'
     # json_gt = f'/media/lucap/big_data/datasets/repair/ground_truth/gt_json/group_{group}.json'
@@ -70,8 +73,8 @@ for j, group in enumerate(groups_nums):
     gt_on_grid[:, 1] = (np.ceil(solution[:, 1] / xy_step)).astype(int)
     gt_on_grid[:, 2] = solution[:, 2]
 
-    pts_X = (np.max(gt_on_grid[:, 0]) + 10)   # xy_grid_points//10
-    pts_Y = (np.max(gt_on_grid[:, 1]) + 10)
+    pts_X = (np.max(gt_on_grid[:, 0])).astype(int)
+    pts_Y = (np.max(gt_on_grid[:, 1])).astype(int)
 
     optimal_grid3[j, 0] = group
     optimal_grid3[j, 1] = pts_X
@@ -116,7 +119,7 @@ for j, group in enumerate(groups_nums):
     else:
         print(solution)
 
-    # save GT_pixelwise_251
+    # save GT_grid3 (xy_step=3)
     df1 = pd.DataFrame()
     df1['rpf'] = names
     df1['x'] = gt_on_grid[:, 0]
@@ -132,7 +135,7 @@ for j, group in enumerate(groups_nums):
     if save_solution_as_txt == True:
         df2.to_csv(os.path.join(output_folder_PTS, f'optimal_grid3_group_{group}.txt'))
     else:
-        print(gt_on_grid)
+        print([pts_X, pts_Y])
 
 print(optimal_grid3)
 
