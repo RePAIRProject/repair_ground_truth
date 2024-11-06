@@ -19,10 +19,12 @@ save_solution_as_txt = True
 output_folder_px = 'gt_px251'
 output_folder_grid = 'gt_grid3'
 output_folder_PTS = 'opt_PTS'
+output_folder_Fin_Im = 'final_img251'
 
 os.makedirs(output_folder_px, exist_ok=True)
 os.makedirs(output_folder_grid, exist_ok=True)
 os.makedirs(output_folder_PTS, exist_ok=True)
+os.makedirs(output_folder_Fin_Im, exist_ok=True)
 
 img_size = 251
 ihs = img_size // 2
@@ -33,8 +35,12 @@ optimal_grid3 = np.zeros((len(groups_nums), 3))
 
 for j, group in enumerate(groups_nums):
     # modify path accordingly!
-    json_gt = f'/home/marina/PycharmProjects/repair_ground_truth/RePAIR_dataset/json/group_{group}.json'
-    images_f = f'/home/marina/PycharmProjects/repair_ground_truth/RePAIR_dataset/images/group_{group}'
+    #json_gt = f'/home/marina/PycharmProjects/repair_ground_truth/RePAIR_dataset/json/group_{group}.json'
+    #images_f = f'/home/marina/PycharmProjects/repair_ground_truth/RePAIR_dataset/images/group_{group}'
+
+    # CASA modify path accordingly!
+    json_gt = f'/Users/Marina/PycharmProjects/repair_ground_truth/RePAIR_dataset/json_obj/RPobj_g{group}_o000{group}.json'
+    images_f = f'/Users/Marina/PycharmProjects/repair_ground_truth/RePAIR_dataset/resize_images'
 
     # images_f = f'/media/lucap/big_data/datasets/repair/2DGT/group_{group}'
     # json_gt = f'/media/lucap/big_data/datasets/repair/ground_truth/gt_json/group_{group}.json'
@@ -95,7 +101,8 @@ for j, group in enumerate(groups_nums):
     plt.imshow((canvas * 255).astype(np.uint8))
     plt.show()
 
-    final_solution = os.path.join(f'/home/marina/PycharmProjects/repair_ground_truth/final_img251/group_{group}.png')
+    #final_solution = os.path.join(f'/home/marina/PycharmProjects/repair_ground_truth/final_img251/group_{group}.png')
+    final_solution = os.path.join(output_folder_Fin_Im, f'group_{group}.png')
     plt.imsave(final_solution, (canvas * 255).astype(np.uint8))
 
     # save GT_pixelwise_251
@@ -121,7 +128,7 @@ for j, group in enumerate(groups_nums):
         print(gt_on_grid)
 
     # save optimal grid for xy_step3
-    df2 = pd.DataFrame([pts_X, pts_Y], index=["p_pts_x", "p_pts_y"], columns=["n_points"])
+    df2 = pd.DataFrame([pts_X.astype(int), pts_Y.astype(int)], index=["p_pts_x", "p_pts_y"], columns=["n_points"])
     if save_solution_as_txt == True:
         df2.to_csv(os.path.join(output_folder_PTS, f'optimal_grid3_group_{group}.txt'))
     else:
