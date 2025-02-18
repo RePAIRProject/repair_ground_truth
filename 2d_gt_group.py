@@ -45,7 +45,8 @@ def main(args):
     k = 0
     for gtk in gt.keys():
         print(f"Reading image of piece {gtk}..", end='\r')
-        img = plt.imread(os.path.join(images_folder, f"{gtk}_intact_mesh.png"))
+        img_name = f"{gtk}_intact_mesh.png"
+        img = plt.imread(os.path.join(images_folder, img_name))
         scaled_img = cv2.resize((img * 255).astype(np.uint8), (img_size, img_size))
         rot_angle = np.rad2deg(gt[gtk]['rotation_euler'][2])
         rotated_img = ndi.rotate(scaled_img, rot_angle, reshape=False)
@@ -57,7 +58,7 @@ def main(args):
         solution[k, 1] = py
         solution[k, 2] = rot_angle
         k += 1
-        names.append(gtk)
+        names.append(img_name)
 
     if visualize == True:
         print("\nVisualizing..")
@@ -77,7 +78,6 @@ def main(args):
         print("\nSaving reconstruction as txt..")
         const_x = np.min(solution[:, 0])
         const_y = np.min(solution[:, 1])
-        df['rpf_png_names'] = names_full
         df['rpf'] = names
         df['x'] = solution[:, 0] - const_x
         df['y'] = solution[:, 1] - const_y
