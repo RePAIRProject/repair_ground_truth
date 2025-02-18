@@ -44,7 +44,7 @@ assert(len(unique_random_strings_I) == len(np.unique(unique_random_strings_I))),
 #root_path = '/home/palma/Unive/RePAIR/Datasets/RePAIR_dataset/ground_truth' 
 root_path = '/media/lucap/big_data/datasets/repair/ground_truth'
 solved_puzzles = os.path.join(root_path, 'DONE')
-solved_puzzles_gt = os.path.join(root_path, 'RPobj_json')
+solved_puzzles_gt = os.path.join(root_path, 'RPobj_json_ISOLATED_EXTRA')
 os.makedirs(solved_puzzles_gt, exist_ok=True)
 
 list_of_solved_puzzles = [sp for sp in os.listdir(solved_puzzles) if sp.endswith('blend')]
@@ -59,12 +59,12 @@ objs_names = []
 objs_names_rs = []
 groups = []
 isolated = []
-isolated_groups = [62, 73, 74, 75]
+isolated_groups = [] # marked as isolated collections! [62, 73, 74, 75]
 skip = [76]
 obj_counter = 0
-isolated_counter = 0
+isolated_counter = 59
 
-for group_num in range(92):
+for group_num in [62, 73, 74, 75]: #range(92):
 
     if group_num > 0 and group_num not in isolated_groups and group_num not in skip:
         solved_puzzle = f"group_{group_num}_DONE.blend"
@@ -154,6 +154,8 @@ for group_num in range(92):
                                 'rotation_euler': [rot_euler.x, rot_euler.y, rot_euler.z],
                                 'rotation_quaternion': [rot_quat[0], rot_quat[1], rot_quat[2], rot_quat[3]]
                             }
+                            json_name_v1 = f"RPobj_g{group_num}_i{isolated_counter:04d}.json"
+                            json_name_rs = f"__RP_g{group_num}_i_{unique_random_strings_I[isolated_counter]}.json"
                             gt_dict[f"{obj.name}"] = gt_piece
                             frag_names.append(obj.name)
                             frags_id.append(f"{obj.name[4:]}")
@@ -163,9 +165,7 @@ for group_num in range(92):
                             groups.append(group_num)
                             isolated.append(1)
 
-                            json_name_v1 = f"RPobj_g{group_num}_i{isolated_counter:04d}.json"
                             target_gt_path = os.path.join(solved_puzzles_gt, json_name_v1)
-                            json_name_rs = f"__RP_g{group_num}_i_{unique_random_strings_I[isolated_counter]}.json"
                             target_gt_path_rs = os.path.join(solved_puzzles_gt, json_name_rs)
                             
                             print(f"saving isolated fragment n. {isolated_counter} from group{group_num}")
@@ -187,4 +187,4 @@ groups2obj_dict['object_name_random'] = objs_names_rs
 groups2obj_dict['object'] = objs
 groups2obj_dict['group'] = groups
 groups2obj_dict['isolated'] = isolated
-groups2obj_dict.to_csv(os.path.join(root_path, "groups2objects.csv"))
+groups2obj_dict.to_csv(os.path.join(solved_puzzles_gt, "groups2objects.csv"))
