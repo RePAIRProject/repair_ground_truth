@@ -6,6 +6,17 @@ import scipy.ndimage as ndi
 import pandas as pd 
 import argparse
 
+def crop_to_content(image, padding=1, return_vals=False):
+
+    x0 = np.min(np.where(image > 0)[1]) - padding
+    x1 = np.max(np.where(image > 0)[1]) + padding
+    y0 = np.min(np.where(image > 0)[0]) - padding
+    y1 = np.max(np.where(image > 0)[0]) + padding
+
+    if return_vals == True:
+        return image[y0:y1, x0:x1, :], x0, x1, y0, y1
+    return image[y0:y1, x0:x1]
+
 def main(args):
 
     print("-" * 50)
@@ -70,7 +81,9 @@ def main(args):
     if args.save_img == True:
         print("\nSaving reconstructed image..")
         os.makedirs(output_folder, exist_ok=True)
-        final_solution = os.path.join(output_folder, f"{args.g}.png")
+        final_solution = os.path.join(output_folder, f"group_{args.g}_2D_visualization.png")
+        if args.crop == True:
+            canvas = crop_to_content(canvas)
         plt.imsave(final_solution, (canvas * 255).astype(np.uint8))
         print("Done")
 
@@ -96,6 +109,7 @@ if __name__ == '__main__':
     parser.add_argument('-g', type=str, default='', help='group number')  
     parser.add_argument('-show', type=bool, default=False, help='visualize the reconstruction')  
     parser.add_argument('-save_img', type=bool, default=True, help='save an image-version of the reconstruction')  
+    parser.add_argument('-crop', type=bool, default=True, help='crop to content')  
     parser.add_argument('-save_txt', type=bool, default=True, help='save a txt-version of the reconstruction')  
     parser.add_argument('-output', type=str, default='', help='output folder')  
 
