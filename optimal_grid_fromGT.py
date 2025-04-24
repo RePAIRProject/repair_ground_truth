@@ -7,9 +7,9 @@ import scipy.ndimage as ndi
 import pandas as pd
 
 
-#groups_nums = [1, 3, 39]  # DONE for RM
+groups_nums = [28, 45]  # DONE for RM
 #groups_nums = [45, 51, 52, 53, 59, 37, 40, 47, 48, 54, 55] ## todo
-groups_nums = [42,	43,	45,	47,	48,	49,	50,	51,	52,	53,	54,	55,	57,	58]
+#groups_nums = [42,	43,	45,	47,	48,	49,	50,	51,	52,	53,	54,	55,	57,	58]
 
 
 xy_step = 3
@@ -37,7 +37,9 @@ optimal_grid3 = np.zeros((len(groups_nums), 3))
 
 for j, group in enumerate(groups_nums):
     # modify path accordingly!
-    json_gt = f'/home/marina/PycharmProjects/repair_ground_truth/RePAIR_dataset/json/group_{group}.json'
+    json_gt = (f'/home/marina/PycharmProjects/repair_ground_truth/RePAIR_dataset/json/RPobj_g{group}_o{group:04d}.json')
+
+    #json_gt = f'/home/marina/PycharmProjects/repair_ground_truth/RePAIR_dataset/json/group_{group}.json'
     #images_f = f'/home/marina/PycharmProjects/repair_ground_truth/RePAIR_dataset/images/group_{group}'
     images_f = f'/home/marina/PycharmProjects/repair_ground_truth/RePAIR_dataset/all_images'
 
@@ -90,7 +92,8 @@ for j, group in enumerate(groups_nums):
     k = 0
     for gtk in gt.keys():
         print(gtk)
-        img = plt.imread(os.path.join(images_f, f"{gtk}_intact_mesh.png"))
+        #img = plt.imread(os.path.join(images_f, f"{gtk}_intact_mesh.png"))
+        img = plt.imread(os.path.join(images_f, f"{gtk}.png"))
         scaled_img = cv2.resize((img * 255).astype(np.uint8), (img_size, img_size))
 
         px = (solution[k, 0]).astype(int)
