@@ -1,50 +1,53 @@
 import bpy 
 import os, json, sys 
+scripts_dir = bpy.utils.user_resource('SCRIPTS')
+sys.path.append(scripts_dir)
+
 import pandas as pd 
 import random
 import string
 import numpy as np 
 
-def generate_unique_random_strings(n, length):
-    # Define the pool of characters
-    chars = string.ascii_letters + string.digits 
-    # Initialize an empty set to store the generated strings
-    unique_strings = set()
-    # Initialize an empty list to store the unique strings
-    unique_random_strings = []
+# def generate_unique_random_strings(n, length):
+#     # Define the pool of characters
+#     chars = string.ascii_letters + string.digits 
+#     # Initialize an empty set to store the generated strings
+#     unique_strings = set()
+#     # Initialize an empty list to store the unique strings
+#     unique_random_strings = []
 
-    while len(unique_random_strings) < n:
-        # Generate a random string of the specified length
-        random_string = ''.join(random.choice(chars) for _ in range(length))
-        # Check if the generated string is not in the set of unique strings
-        if random_string not in unique_strings:
-            # Add the generated string to the set of unique strings
-            unique_strings.add(random_string)
-            # Add the generated string to the list of unique random strings
-            unique_random_strings.append(random_string)
+#     while len(unique_random_strings) < n:
+#         # Generate a random string of the specified length
+#         random_string = ''.join(random.choice(chars) for _ in range(length))
+#         # Check if the generated string is not in the set of unique strings
+#         if random_string not in unique_strings:
+#             # Add the generated string to the set of unique strings
+#             unique_strings.add(random_string)
+#             # Add the generated string to the list of unique random strings
+#             unique_random_strings.append(random_string)
 
-    return unique_random_strings
+#     return unique_random_strings
 
-# Example usage: Generate 5 unique random strings, each of length 10
-n = 150
-length = 6
-unique_random_strings = generate_unique_random_strings(n, length)
-for i, stringc in enumerate(unique_random_strings, start=1):
-    print(f"Unique random string {i}: {stringc}")
-assert(len(unique_random_strings) == len(np.unique(unique_random_strings))), 'DOUBLED!'
+# # Example usage: Generate 5 unique random strings, each of length 10
+# n = 150
+# length = 6
+# unique_random_strings = generate_unique_random_strings(n, length)
+# for i, stringc in enumerate(unique_random_strings, start=1):
+#     print(f"Unique random string {i}: {stringc}")
+# assert(len(unique_random_strings) == len(np.unique(unique_random_strings))), 'DOUBLED!'
 
 
-n = 200
-length = 6
-unique_random_strings_I = generate_unique_random_strings(n, length)
-for i, stringc in enumerate(unique_random_strings_I, start=1):
-    print(f"Unique random string {i}: {stringc}")
-assert(len(unique_random_strings_I) == len(np.unique(unique_random_strings_I))), 'DOUBLED!'
+# n = 200
+# length = 6
+# unique_random_strings_I = generate_unique_random_strings(n, length)
+# for i, stringc in enumerate(unique_random_strings_I, start=1):
+#     print(f"Unique random string {i}: {stringc}")
+# assert(len(unique_random_strings_I) == len(np.unique(unique_random_strings_I))), 'DOUBLED!'
 
 #root_path = '/home/palma/Unive/RePAIR/Datasets/RePAIR_dataset/ground_truth' 
-root_path = '/media/lucap/big_data/datasets/repair/ground_truth'
+root_path = '/home/lucap/code/RePair_3D_new' #'/media/lucap/big_data/datasets/repair/ground_truth'
 solved_puzzles = os.path.join(root_path, 'DONE')
-solved_puzzles_gt = os.path.join(root_path, 'RPobj_json_ISOLATED_EXTRA')
+solved_puzzles_gt = os.path.join(root_path, 'PUZZLES')
 os.makedirs(solved_puzzles_gt, exist_ok=True)
 
 list_of_solved_puzzles = [sp for sp in os.listdir(solved_puzzles) if sp.endswith('blend')]
@@ -57,17 +60,17 @@ frags_id = []
 objs = []
 objs_names = []
 objs_names_rs = []
-groups = []
+groups = [] #[62, 73, 74, 75]: #
 isolated = []
 isolated_groups = [] # marked as isolated collections! [62, 73, 74, 75]
 skip = [76]
 obj_counter = 0
 isolated_counter = 59
 
-for group_num in [62, 73, 74, 75]: #range(92):
+for group_num in range(2):
 
     if group_num > 0 and group_num not in isolated_groups and group_num not in skip:
-        solved_puzzle = f"group_{group_num}_DONE.blend"
+        solved_puzzle = f"group_{group_num}_DONE_new.blend"
         
         print(f"GT of {solved_puzzle}")
         gt_dict = {}
@@ -111,8 +114,8 @@ for group_num in [62, 73, 74, 75]: #range(92):
                         obj_counter += 1
                         json_name_v1 = f"RPobj_g{group_num}_o{obj_counter:04d}.json"
                         target_gt_path = os.path.join(solved_puzzles_gt, json_name_v1)
-                        json_name_rs = f"__RP_g{group_num}_o_{unique_random_strings[obj_counter]}.json"
-                        target_gt_path_rs = os.path.join(solved_puzzles_gt, json_name_rs)
+                        # json_name_rs = f"__RP_g{group_num}_o_{unique_random_strings[obj_counter]}.json"
+                        # target_gt_path_rs = os.path.join(solved_puzzles_gt, json_name_rs)
                         for obj in collection.all_objects:
                             if "RPf" in obj.name:
                                 loc = obj.location 
@@ -128,7 +131,7 @@ for group_num in [62, 73, 74, 75]: #range(92):
                                 frags_id.append(f"{obj.name[4:]}")
                                 objs.append(obj_counter)
                                 objs_names.append(json_name_v1)
-                                objs_names_rs.append(json_name_rs)
+                                # objs_names_rs.append(json_name_rs)
                                 groups.append(group_num)
                                 isolated.append(0)
 
@@ -137,8 +140,8 @@ for group_num in [62, 73, 74, 75]: #range(92):
                             print("WARNING! What happened?")
                         with open(target_gt_path, 'w') as jtp:
                             json.dump(gt_dict, jtp, indent=3)
-                        with open(target_gt_path_rs, 'w') as jtp:
-                            json.dump(gt_dict, jtp, indent=3)
+                        # with open(target_gt_path_rs, 'w') as jtp:
+                        #     json.dump(gt_dict, jtp, indent=3)
 
                 elif "isolated" in collection.name:
                     
@@ -155,25 +158,25 @@ for group_num in [62, 73, 74, 75]: #range(92):
                                 'rotation_quaternion': [rot_quat[0], rot_quat[1], rot_quat[2], rot_quat[3]]
                             }
                             json_name_v1 = f"RPobj_g{group_num}_i{isolated_counter:04d}.json"
-                            json_name_rs = f"__RP_g{group_num}_i_{unique_random_strings_I[isolated_counter]}.json"
+                            # json_name_rs = f"__RP_g{group_num}_i_{unique_random_strings_I[isolated_counter]}.json"
                             gt_dict[f"{obj.name}"] = gt_piece
                             frag_names.append(obj.name)
                             frags_id.append(f"{obj.name[4:]}")
                             objs.append(obj_counter)
                             objs_names.append(json_name_v1)
-                            objs_names_rs.append(json_name_rs)
+                            # objs_names_rs.append(json_name_rs)
                             groups.append(group_num)
                             isolated.append(1)
 
                             target_gt_path = os.path.join(solved_puzzles_gt, json_name_v1)
-                            target_gt_path_rs = os.path.join(solved_puzzles_gt, json_name_rs)
+                            # target_gt_path_rs = os.path.join(solved_puzzles_gt, json_name_rs)
                             
                             print(f"saving isolated fragment n. {isolated_counter} from group{group_num}")
                             
                             with open(target_gt_path, 'w') as jtp:
                                 json.dump(gt_dict, jtp, indent=3)
-                            with open(target_gt_path_rs, 'w') as jtp:
-                                json.dump(gt_dict, jtp, indent=3)
+                            # with open(target_gt_path_rs, 'w') as jtp:
+                            #     json.dump(gt_dict, jtp, indent=3)
         else:
             print(f"Group {group_num} should be there but not found!")
     else:
@@ -183,7 +186,7 @@ groups2obj_dict['pieces_names'] = frag_names
 groups2obj_dict['pieces_id'] = frags_id
 groups2obj_dict['object'] = objs
 groups2obj_dict['object_name'] = objs_names
-groups2obj_dict['object_name_random'] = objs_names_rs
+# groups2obj_dict['object_name_random'] = objs_names_rs
 groups2obj_dict['object'] = objs
 groups2obj_dict['group'] = groups
 groups2obj_dict['isolated'] = isolated
