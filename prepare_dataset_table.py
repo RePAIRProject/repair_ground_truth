@@ -3,7 +3,10 @@ import natsort
 import pandas as pd
 import shutil 
 
-root_path = '/home/lucap/code/RePair_3D_new' #'/media/lucap/big_data/datasets/repair/ground_truth'
+#root_path = '/home/lucap/code/RePair_3D_new' #'/media/lucap/big_data/datasets/repair/ground_truth'
+
+root_path = '/run/user/1000/gvfs/sftp:host=gpu1.dsi.unive.it,user=m.khoroshiltseva/home/ssd/datasets/RePAIR_v2'
+
 solved_puzzles_pieces = os.path.join(root_path, 'PUZZLES', 'SOLVED')
 solved_puzzles_images = os.path.join(root_path, 'PUZZLES_2D_scale3', 'SOLVED')
 
@@ -36,7 +39,6 @@ frags_puzzles = []
 frags_motives = []
 frags_weights = []
 frags_notes = []
-
 
 # motives_table = pd.DataFrame()
 # motive_name = []
