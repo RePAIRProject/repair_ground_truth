@@ -3,15 +3,17 @@ import os, json, sys
 scripts_dir = bpy.utils.user_resource('SCRIPTS')
 sys.path.append(scripts_dir)
 import bmesh
-import numpy as np
-import sys
-import open3d as o3d 
+#import numpy as np
+#import sys
+#import open3d as o3d
 import pandas as pd 
 from natsort import natsorted
 import shutil 
 
-root_path = '/run/user/1000/gvfs/sftp:host=gpu1.dsi.unive.it,user=luca.palmieri/home/ssd/datasets/RePAIR_v2'
-#'/home/lucap/code/RePair_3D_new' #'/media/lucap/big_data/datasets/repair/ground_truth'
+#root_path = '/run/user/1000/gvfs/sftp:host=gpu1.dsi.unive.it,user=luca.palmieri/home/ssd/datasets/RePAIR_v2'
+#root_path = '/run/user/1000/gvfs/sftp:host=gpu1.dsi.unive.it,user=m.khoroshiltseva/home/ssd/datasets/RePAIR_v2'
+root_path = '/home/marina/Desktop/3D 1901'
+
 solved_puzzles = os.path.join(root_path, '1_Blender_Assembled')
 exported_OBJ_folder = os.path.join(root_path, '2_Exported_OBJ')
 open_discovery_folder = os.path.join(exported_OBJ_folder, 'OPEN_DISCOVERY')
